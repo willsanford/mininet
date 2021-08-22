@@ -9,40 +9,31 @@
 #ifndef TENSOR_H
 #define TENSOR_H
 
+#include <cstdlib>
+#include <vector>
+
+using std::vector;
 class Tensor{
 	private:
 		int num_dims;
-		int *dims;
 		int num_el;
-		float *data;
+		vector<int> *dims;
+		vector<float> *data;
 	public:
+		// Contructors and destructors
+		Tensor(vector<int> *dims, float initial_num = 0);
+		~Tensor();
 		// Getters 
-		int get_num_dims(){
-			return num_dims;
-		}
-		int* get_dims(){
-			return dims;
-		}
-		int get_num_el(){
-			return num_el;
-		}
-		float *get_data(){
-			return data;
-		}
+		int get_num_dims();
+		int get_num_el();
+		vector<int>* get_dims();
+		vector<float> *get_data();
 
 		// Setters
-		void set_num_dims(int n){
-			num_dims = n;
-		}
-		void set_dims(int* n){
-			dims = n;
-		}
-		void set_num_el(int n){
-			num_el = n;
-		}
-		void set_data(float * n){
-			data = n;
-		}
-}
+		void set_num_dims(int n);
+		void set_num_el(int n);
+		void set_dims(vector<int> *n);
+		void set_data(vector<float> *n);
+};
 
 #endif
