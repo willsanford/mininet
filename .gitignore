@@ -1,2 +1,6 @@
 # cmake build files
 build/
+
+# VSCode files 
+.vscode
+.vs

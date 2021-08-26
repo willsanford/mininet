@@ -20,5 +20,6 @@ target_include_directories(cpp_nn PUBLIC
 
 target_link_libraries(cpp_nn PUBLIC
 		      gtest
+			  pthread
 		      LogsLib
 		      MathLib)
