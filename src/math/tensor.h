@@ -21,7 +21,7 @@ class Tensor{
 		vector<float> *data;
 	public:
 		// Contructors and destructors
-		Tensor(vector<int> *dims, float initial_num = 0);
+		Tensor(vector<int>& dims, float initial_num = 0);
 		~Tensor();
 		// Getters 
 		int get_num_dims();
@@ -32,8 +32,8 @@ class Tensor{
 		// Setters
 		void set_num_dims(int n);
 		void set_num_el(int n);
-		void set_dims(vector<int> *n);
-		void set_data(vector<float> *n);
+		void set_dims(vector<int>& n);
+		void set_data(vector<float>& n);
 };
 
 #endif

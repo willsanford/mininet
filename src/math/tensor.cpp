@@ -13,22 +13,23 @@
 
 using std::vector;
 // Tensor Contructor
-Tensor::Tensor(vector<int> *dims, float initial_num){
+Tensor::Tensor(vector<int>& dims, float initial_num){
 	// Set the number of dimensions and the actual dimensions
-	set_num_dims(dims->size());
+	set_num_dims(dims.size());
 	set_dims(dims);
 
 	// Declare all the data points and initialize to
 	int data_points = 1;
-	for (auto i = dims->begin(); i != dims->end(); ++i){
+	for (auto i = dims.begin(); i != dims.end(); ++i){
 		data_points *= *i;
 	}
 
 	set_num_el(data_points);
-	set_data(new vector<float>(data_points));
+	vector<float> data(data_points, 0);
+	set_data(data);
 
 	// Populate the tensor with the initial value
-	data->assign(num_el, initial_num);
+	data.assign(num_el, initial_num);
 };
 Tensor::~Tensor(){
 	// delete dims;
@@ -58,9 +59,9 @@ void Tensor::set_num_dims(int n){
 void Tensor::set_num_el(int n){
 	num_el = n;
 }
-void Tensor::set_dims(vector<int> *n){
-	dims = n;
+void Tensor::set_dims(vector<int>& n){
+	dims = &n;
 }
-void Tensor::set_data(vector<float> *n){
-	data = n;
+void Tensor::set_data(vector<float>& n){
+	data = &n;
 }

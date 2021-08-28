@@ -1,7 +1,9 @@
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "logs.h"
 #include "tensor.h"
 #include "tensor_math.h"
 
@@ -30,46 +32,53 @@ using std::string;
 */
 
 TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op){
-    vector<int>* dims1 = src1.get_dims();
-    int dim1 = src1.get_num_dims();
-    vector<int>* dims2 = src2.get_dims();
-    int dim2 = src2.get_num_dims();
+    vector<int> sr1_dims = *src1.get_dims();
+    vector<int> src2_dims = *src2.get_dims();
+    int src1_n = src1.get_num_dims();
+    int src2_n = src2.get_num_dims();
+
     // Create the output vector that is the max of the other vectors
-    vector<int> dst_dims(std::max(dim1, dim2), 0);
+    vector<int> dst_dims(std::max(src1_n, src2_n), 0);
+    
+    // create two temporary vectors to be used in calculation
+    vector<int> temp1 = sr1_dims;
+    vector<int> temp2 = src2_dims;
+
+    // Ensure that the number of dimensions in either array is the same
+    if (src1_n - src2_n > 0){
+        // Fill in non existent dimensions of temp2 with 1s
+        for(int c = 0; c < src1_n - src2_n; c++){
+            temp2.insert(temp2.begin(), 1);
+        }
+    }else if (src1_n - src2_n < 0){
+        // Fill in non existent dimensions of src1 with 1s
+        for(int c = 0; c < src2_n - src1_n; c++){
+            temp1.insert(temp1.begin(), 1);
+        }
+    }
 
     switch(op){
-        case add:
-            for (int dim: dst_dims){
-                dim = 4;
+        case ADD:
+            for (int i = 0; i < dst_dims.size(); i++){ 
+                if (temp1[i] == 1){
+                    dst_dims[i] = temp2[i];
+                }else if (temp2[i] == 1){
+                    dst_dims[i] = temp1[i];
+                }else if (temp1[i] != temp2[i]){
+                    #ifdef LOGGING
+                    log("Trying to broadcast tensors of incompatable sizes", ERROR);
+                    #endif
+                    return TMATH_FAILURE;
+                }else{
+                    dst_dims[i] = temp1[i];
+                }
             }
-            for (int dim: dst_dims){
-                printf("%d\n", dim);
-            }
-            // for (int i = 0; i < dst_dims_n; i++){
-            //     // This dimenstion does not exist in 1
-            //     if ((dst_dims_n - i) > dim1){  
-            //         dst_dims[i] = dims2[i];
-            //     // This dimension does not exist in 2
-            //     }else if((dst_dims_n - i) > dim2){
-            //         dst_dims[i] = dims1[i];
-            //     // The dimensions are equal
-            //     }else if(dims1[i] == dims2[i]){
-            //         dst_dims[i] = dims1[i];
-            //     // The first dimension is 1, so broadcast the other
-            //     }else if(dims1[i] == 1){
-            //         dst_dims[i] = dims2[i];
-            //     // The second dimention is 1, so broadcast the other
-            //     }else if(dims2[i] == 1){
-            //         dst_dims[i] = dims1[i];
-            //     }else{
-            //         return TMATH_FAILURE;
-            //     }
-            // }
             break;
 
-        case mult:
+        case MULT:
             break;
     }
+    dst = dst_dims;
     return TMATH_SUCCESS;
 }
 /**
@@ -110,9 +119,28 @@ TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask){
     return TMATH_SUCCESS;
 }
 /**
-    Add two tensors.
+    Add two tensors. Broadcast src2 onto src1 to create dst
 */
-TMATH_STATUS tadd(Tensor* src1, Tensor *src2){
+TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
+    // Get the output dimensions
+    vector<int> dst_dims;
+    // Broadcast
+    if (!broadcast(src1, src2, dst_dims, ADD)){
+        return TMATH_FAILURE;
+    }
+    Tensor output_tensor = Tensor(dst_dims);
+
+    // Get values needed for efficient addition.
+    int curr_dim = 0;
+    float* src1_p = &src1.get_data()[0];
+    float* src2_p = &src2.get_data()[0];
+    float* dst_p = &dst.get_data()[0];
+    // Loop through the elements of the tensors and add broadcast as needed
+    for (int i = 0; i < output_tensor.get_num_el(); i++){
+
+            
+        dst_p++;
+    }   
     return TMATH_SUCCESS;
 }
 /**
@@ -126,33 +154,5 @@ TMATH_STATUS tadd_const(Tensor *src, float add){
     Add a single constant to all the elements of a tensor that correspond to non zero elements in the mask tensor
 */  
 TMATH_STATUS tadd_const_mask(Tensor *src, float add, Tensor *mask){
-    return TMATH_SUCCESS;
-}
-// TODO : Update to use std::vector
-TMATH_STATUS tensor_add(Tensor *src, int add, bool mask, Tensor *mask_val){
-    // If mask if true, check that the tensor pointer is not null
-    if (mask && (mask_val = nullptr)) return TMATH_FAILURE;
-    // Check if the mask is valid
-    if (mask && (src->get_num_el() != mask_val->get_num_el())) return TMATH_FAILURE;
-    
-    // Loop through the elements in the soruce tensor
-    float* src_addr = &src->get_data()->front();
-    float* mask_addr = nullptr;
-    if (mask) mask_addr = &mask_val->get_data()->front();
-    
-    // Run the addition differently depending on if there is a mask
-    if (mask){
-        for (int i = 0; i < src->get_num_el(); i++){
-            if (*mask_addr) *src_addr += add;
-            src_addr++;
-            mask_addr++;
-    }
-    }else{
-        for (int i = 0; i < src->get_num_el(); i++){
-            *src_addr += add;
-            src_addr++;
-    }
-    }
-    
     return TMATH_SUCCESS;
 }
