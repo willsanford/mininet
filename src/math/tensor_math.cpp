@@ -6,8 +6,7 @@
 #include "tensor_math.h"
 
 using std::vector;
-
-
+using std::string;
 /**
     Broadcast the dimensions of two tensors to a destination. Casting will be different for multiplication and addition operations.
     Broadcasting general
@@ -29,42 +28,49 @@ using std::vector;
         t3 = ERROR
     Breaodcasting Multiplication
 */
-TMATH_STATUS broadcast(Tensor *src1, Tensor *src2, vector<int> *dst, string op){
-    vector<int>*dims1 = src1->get_dims();
-    int dim1 = src1->get_num_dims();
-    vector<int>*dims2 = src2->get_dims();
-    int dim2 = src2->get_num_dims();
-    int dst_dims_n = max(dim1, dim2);
-    vector<int> dst_dims = new vector<int>(dst_dims_n);
+
+TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op){
+    vector<int>* dims1 = src1.get_dims();
+    int dim1 = src1.get_num_dims();
+    vector<int>* dims2 = src2.get_dims();
+    int dim2 = src2.get_num_dims();
+    // Create the output vector that is the max of the other vectors
+    vector<int> dst_dims(std::max(dim1, dim2), 0);
 
     switch(op){
-        case "add":
-            for (int i = 0; i < dst_dims_n; i++){
-                // This dimenstion does not exist in 1
-                if ((dst_dims_n - i) > dim1){  
-                    dst_dims[i] = dims2[i];
-                // This dimension does not exist in 2
-                }elif((dst_dims_n - i) > dim2){
-                    dst_dims[i] = dims1[i];
-                // The dimensions are equal
-                }elif(dims1[i] == dims2[i]){
-                    dst_dims[i] = dims1[i];
-                // The first dimension is 1, so broadcast the other
-                }elif(dims1[i] == 1){
-                    dst_dims[i] = dims2[i];
-                // The second dimention is 1, so broadcast the other
-                }elif(dims2[i] == 1){
-                    dst_dims[i] = dims1[i];
-                }else{
-                    return TMATH_FAILURE;
-                }
-
+        case add:
+            for (int dim: dst_dims){
+                dim = 4;
             }
+            for (int dim: dst_dims){
+                printf("%d\n", dim);
+            }
+            // for (int i = 0; i < dst_dims_n; i++){
+            //     // This dimenstion does not exist in 1
+            //     if ((dst_dims_n - i) > dim1){  
+            //         dst_dims[i] = dims2[i];
+            //     // This dimension does not exist in 2
+            //     }else if((dst_dims_n - i) > dim2){
+            //         dst_dims[i] = dims1[i];
+            //     // The dimensions are equal
+            //     }else if(dims1[i] == dims2[i]){
+            //         dst_dims[i] = dims1[i];
+            //     // The first dimension is 1, so broadcast the other
+            //     }else if(dims1[i] == 1){
+            //         dst_dims[i] = dims2[i];
+            //     // The second dimention is 1, so broadcast the other
+            //     }else if(dims2[i] == 1){
+            //         dst_dims[i] = dims1[i];
+            //     }else{
+            //         return TMATH_FAILURE;
+            //     }
+            // }
             break;
 
-        case "mult":
+        case mult:
             break;
     }
+    return TMATH_SUCCESS;
 }
 /**
     @brief Tensors must be of the following shape
@@ -107,7 +113,7 @@ TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask){
     Add two tensors.
 */
 TMATH_STATUS tadd(Tensor* src1, Tensor *src2){
-    return TMATH_SUCCESS
+    return TMATH_SUCCESS;
 }
 /**
     Add a single constant to all the elements of a tensor

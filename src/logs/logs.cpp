@@ -6,38 +6,29 @@
 using namespace std;
 
 
-void log(string message, int type){
-	cout << message << endl;
-/*
-	// Get the time
+void log(string message, message_t type){
+	// Get the current time
 	time_t now = time(0);
-	tm *ltm = localtime(&now);
+	tm* ltm = localtime(&now);
+	// Print out the time of day
+	printf("[%02d:%02d:%02d] ", ltm->tm_hour, ltm->tm_min, ltm->tm_sec);
 
-	string hour = to_string(5+ltm->tm_hour);
-	string min = to_string(30 + ltm->tm_min);
-	string sec = to_string()
-	
-	// Switch on message type
-	switch(type){
-		// Note - White
-		case 0:
+	// Change the color of the output based on the message type
+	switch (type){
+		case LOG:
+			cout << "LOG: ";
 			break;
-		// Success - Green
-		case 1:
-			system("Color 0A");			
+		case WARNING:
+			cout << YELLOW << "WARNING: ";
 			break;
-		// Warning - Yellow
-		case 2:
+		case ERROR:
+			cout << RED << "ERROR: ";
 			break;
-		// Error - Red
-		case 3;
-			system("Color E4");
+		case SUCCESS:
+			cout << GREEN << "SUCCESS: ";
 			break;
-		
-		// Currently does nothing
-		default:
-			break;
-
 	}
-	*/
+
+	// Print the message and reset the color
+	cout << message << RESET << endl;;
 }

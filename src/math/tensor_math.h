@@ -8,11 +8,14 @@ enum TMATH_STATUS{
     TMATH_SUCCESS = 1
 };
 
-
+enum op_t{
+    add = 0,
+    mult = 1
+};
 /*
-    Math library functions
+    CPU dependant Math library functions
 */
-TMATH_STATUS broadcast(Tensor *src1, Tensor *src2, vector<int> *dst, string op = "add");
+TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op = add);
 TMATH_STATUS tmult(Tensor *src1, Tensor *src2, Tensor *dst);
 TMATH_STATUS tmult_const(Tensor *src, float add);
 TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask);
@@ -21,6 +24,21 @@ TMATH_STATUS tadd_const(Tensor *src, float add);
 TMATH_STATUS tadd_const_mask(Tensor *src, float add, Tensor *mask);
 TMATH_STATUS tensor_mult  (Tensor *src1, Tensor *src2, Tensor *dst);
 TMATH_STATUS tensor_add(Tensor *src, int add, bool mask, Tensor *mask_val = nullptr);
+
+/*
+    CUDE dependant Math library functions
+*/
+// TMATH_STATUS c_broadcast(Tensor *src1, Tensor *src2, vector<int> *dst, string op = "add");
+// TMATH_STATUS c_tmult(Tensor *src1, Tensor *src2, Tensor *dst);
+// TMATH_STATUS c_tmult_const(Tensor *src, float add);
+// TMATH_STATUS c_tmult_const_mask(Tensor *src, float add, Tensor *mask);
+// TMATH_STATUS c_tadd(Tensor* src1, Tensor *src2);
+// TMATH_STATUS c_tadd_const(Tensor *src, float add);
+// TMATH_STATUS c_tadd_const_mask(Tensor *src, float add, Tensor *mask);
+// TMATH_STATUS c_tensor_mult  (Tensor *src1, Tensor *src2, Tensor *dst);
+// TMATH_STATUS c_tensor_add(Tensor *src, int add, bool mask, Tensor *mask_val = nullptr);
+
+
 
 
 #endif

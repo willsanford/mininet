@@ -31,8 +31,8 @@ Tensor::Tensor(vector<int> *dims, float initial_num){
 	data->assign(num_el, initial_num);
 };
 Tensor::~Tensor(){
-	delete dims;
-	delete data;
+	// delete dims;
+	// delete data;
 }
 
 // Getters
