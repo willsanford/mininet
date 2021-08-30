@@ -13,15 +13,13 @@ class TENSOR_UNITTEST : public ::testing::Test{
 		}
 };	
 
-/*********************************************
- * Broadcasting tests
- * ******************************************/
+
 
 
 /*********************************************
 Check that Tensor getters and setters work
 **********************************************/ 
-TEST_F(TENSOR_UNITTEST, GETTERS_AND_SETTERS){
+TEST_F(TENSOR_UNITTEST, GETTERS_AND_SETTERS_1){
 	// Create a 3x3 tensor and define its values as 1...9
 	vector<int> dims = {3,3};
 	Tensor tensor = Tensor(dims);
@@ -40,7 +38,19 @@ TEST_F(TENSOR_UNITTEST, GETTERS_AND_SETTERS){
 	vector<float> new_data(9, 0);
 	tensor.set_data(new_data);
 	ASSERT_EQ(*tensor.get_data(), new_data);
+
+	// Check that you can get the pointer to the first value in the data array
+	vector<float> new_data_2(9, 10);
+	tensor.set_data(new_data_2);
+
+	float* first_el_p = tensor.get_first_p();
+	ASSERT_EQ(*first_el_p, new_data_2[0]);
 }
+
+
+/*********************************************
+ * Broadcasting tests
+ * ******************************************/
 
 /*********************************************
 Check that the following broadcasting behaviour works
@@ -140,9 +150,29 @@ TEST_F(TENSOR_UNITTEST, BROADCASTING_5){
 
 	ASSERT_EQ(status, TMATH_FAILURE);
 }		
-// TEST_F(TENSOR_UNITTEST, ADDITION){
-// 	ASSERT_EQ(1,1);
-// }
+
+/*********************************************
+ * Broadcasting tests
+ * ******************************************/
+
+ 
+TEST_F(TENSOR_UNITTEST, ADDITION){
+	vector<int> dims1 = {3,3,3};
+	vector<int> dims2 = {1};
+
+	Tensor src1 = Tensor(dims1);
+	Tensor src2 = Tensor(dims2);
+
+	vector<float> elements = {1};
+	src2.set_data(elements);
+
+	vector<int> dims3;
+	Tensor dst = Tensor(dims3);
+
+	TMATH_STATUS status = tadd(src1, src2, dst);
+
+	ASSERT_EQ(status, TMATH_FAILURE);
+}
 // TEST_F(TENSOR_UNITTEST, SCALING){
 // 	ASSERT_EQ(1,1);
 // }

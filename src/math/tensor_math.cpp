@@ -32,7 +32,7 @@ using std::string;
 */
 
 TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op){
-    vector<int> sr1_dims = *src1.get_dims();
+    vector<int> src1_dims = *src1.get_dims();
     vector<int> src2_dims = *src2.get_dims();
     int src1_n = src1.get_num_dims();
     int src2_n = src2.get_num_dims();
@@ -41,7 +41,7 @@ TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op){
     vector<int> dst_dims(std::max(src1_n, src2_n), 0);
     
     // create two temporary vectors to be used in calculation
-    vector<int> temp1 = sr1_dims;
+    vector<int> temp1 = src1_dims;
     vector<int> temp2 = src2_dims;
 
     // Ensure that the number of dimensions in either array is the same
@@ -135,11 +135,28 @@ TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
     float* src1_p = src1.get_first_p();
     float* src2_p = src2.get_first_p();
     float* dst_p = dst.get_first_p();
-    // Loop through the elements of the tensors and add broadcast as needed
-    for (int i = 0; i < output_tensor.get_num_el(); i++){
 
-            
+    // Get the number of elements in the broadcasted tensor. Will be used to loop
+    int max_el = src1.get_num_el();
+    int count = 0;
+
+    // Loop through the elements of the tensors and add broadcast as needed
+    for (float el: *dst.get_data()){
+        // Add the values and move the pointers forward
+        std::cout << *src1_p << std::endl;
+
+        std::cout << "hesdlkjshkj" << std::endl;
+
+        *dst_p = *src1_p + *src2_p;
+
         dst_p++;
+        src1_p++;
+        src2_p++;
+        // Reset the loop if need be.
+        if (count++ >= max_el) {
+            src2_p = src2.get_first_p();
+            count = 0;
+        }
     }   
     return TMATH_SUCCESS;
 }

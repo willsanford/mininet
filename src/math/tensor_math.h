@@ -22,7 +22,7 @@ TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op = A
 TMATH_STATUS tmult(Tensor *src1, Tensor *src2, Tensor *dst);
 TMATH_STATUS tmult_const(Tensor *src, float add);
 TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask);
-TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst, bool mask_b = false);
+TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst);
 TMATH_STATUS tadd_const(Tensor *src, float add);
 TMATH_STATUS tensor_mult  (Tensor *src1, Tensor *src2, Tensor *dst);
 
