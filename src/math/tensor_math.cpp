@@ -132,9 +132,9 @@ TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
 
     // Get values needed for efficient addition.
     int curr_dim = 0;
-    float* src1_p = &src1.get_data()[0];
-    float* src2_p = &src2.get_data()[0];
-    float* dst_p = &dst.get_data()[0];
+    float* src1_p = src1.get_first_p();
+    float* src2_p = src2.get_first_p();
+    float* dst_p = dst.get_first_p();
     // Loop through the elements of the tensors and add broadcast as needed
     for (int i = 0; i < output_tensor.get_num_el(); i++){
 

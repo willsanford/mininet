@@ -34,6 +34,10 @@ class Tensor{
 		void set_num_el(int n);
 		void set_dims(vector<int>& n);
 		void set_data(vector<float>& n);
+	
+		// Other functions
+		// returns the pointer to the first element of the element
+		float* get_first_p();
 };
 
 #endif
