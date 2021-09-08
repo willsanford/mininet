@@ -130,34 +130,35 @@ TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
     }
     Tensor output_tensor = Tensor(dst_dims);
 
-    // Get values needed for efficient addition.
-    int curr_dim = 0;
-    float* src1_p = src1.get_first_p();
-    float* src2_p = src2.get_first_p();
-    float* dst_p = dst.get_first_p();
+    vector<float> src1_d = *src1.get_data();
+    vector<float> src2_d = *src2.get_data();
+    vector<float> dst_data = *dst.get_data();
 
     // Get the number of elements in the broadcasted tensor. Will be used to loop
     int max_el = src1.get_num_el();
     int count = 0;
 
-    // Loop through the elements of the tensors and add broadcast as needed
-    for (float el: *dst.get_data()){
-        // Add the values and move the pointers forward
-        std::cout << *src1_p << std::endl;
+    for (size_t i = 0; i < dst_data.size(); i++){
+        std::cout << dst_data[i] << std::endl;
+    }
 
-        std::cout << "hesdlkjshkj" << std::endl;
+        // // Add the values and move the pointers forward
+        // std::cout << *src1_p << std::endl;
 
-        *dst_p = *src1_p + *src2_p;
+        // std::cout << "hesdlkjshkj" << std::endl;
 
-        dst_p++;
-        src1_p++;
-        src2_p++;
-        // Reset the loop if need be.
-        if (count++ >= max_el) {
-            src2_p = src2.get_first_p();
-            count = 0;
-        }
-    }   
+        // *dst_p = *src1_p + *src2_p;
+
+        // dst_p++;
+        // src1_p++;
+        // src2_p++;
+        // // Reset the loop if need be.
+        // if (count++ >= max_el) {
+        //     src2_p = src2.get_first_p();
+        //     count = 0;
+        // }
+
+    dst.set_data(dst_data);
     return TMATH_SUCCESS;
 }
 /**

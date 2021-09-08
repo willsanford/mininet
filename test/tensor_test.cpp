@@ -169,9 +169,14 @@ TEST_F(TENSOR_UNITTEST, ADDITION){
 	vector<int> dims3;
 	Tensor dst = Tensor(dims3);
 
+	vector<float> expected_values(3*3*3, 1);
+
 	TMATH_STATUS status = tadd(src1, src2, dst);
 
-	ASSERT_EQ(status, TMATH_FAILURE);
+	ASSERT_EQ(status, TMATH_SUCCESS);
+	// vector<float> temp(27,1);
+	// dst.set_data(temp);
+	ASSERT_EQ(*dst.get_data(), expected_values);
 }
 // TEST_F(TENSOR_UNITTEST, SCALING){
 // 	ASSERT_EQ(1,1);
