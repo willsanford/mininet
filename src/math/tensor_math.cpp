@@ -128,6 +128,7 @@ TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
     if (!broadcast(src1, src2, dst_dims, ADD)){
         return TMATH_FAILURE;
     }
+    std::cout << dst_dims[0] << std::endl;
     Tensor output_tensor = Tensor(dst_dims);
 
     vector<float> src1_d = *src1.get_data();
