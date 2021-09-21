@@ -65,8 +65,7 @@ void Tensor::set_dims(vector<int>& n){
 void Tensor::set_data(vector<float>& n){
 	data = &n;
 }
-
 // Other functions
 float * Tensor::get_first_p(){
-	return &(*data)[0];
+	return &((*data)[0]);
 }
