@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(cpp_nn)
 
+
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED)
 
@@ -14,7 +16,7 @@ add_executable(cpp_nn ${TEST_SOURCES})
 # Add library subdirectories and include thos directories
 add_subdirectory(src/math)
 add_subdirectory(src/logs)
-target_include_directories(cpp_nn PUBLIC 
+target_include_directories(cpp_nn PUBLIC
 			   src/logs
 			   src/math)
 
