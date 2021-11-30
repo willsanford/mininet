@@ -10,10 +10,11 @@
 #include <iostream>
 #include <vector>
 #include "tensor.h"
+#include "core.h"
 
 using std::vector;
 // Tensor Contructor
-Tensor::Tensor(vector<int>& dims, float initial_num){
+Tensor::Tensor(vector<int> dims, float initial_num){
 	// Set the number of dimensions and the actual dimensions
 	set_num_dims(dims.size());
 	set_dims(dims);
@@ -25,11 +26,8 @@ Tensor::Tensor(vector<int>& dims, float initial_num){
 	}
 
 	set_num_el(data_points);
-	vector<float> data(data_points, 0);
+	vector<float> data(data_points, initial_num);
 	set_data(data);
-
-	// Populate the tensor with the initial value
-	data.assign(num_el, initial_num);
 };
 Tensor::~Tensor(){
 	// delete dims;
@@ -40,32 +38,41 @@ Tensor::~Tensor(){
 int Tensor::get_num_dims(){
 	return num_dims;
 }
-
 int Tensor::get_num_el(){
 	return num_el;
 }
-vector<int>* Tensor::get_dims(){
+vector<int> Tensor::get_dims(){
 	return dims;
 }
 vector<float>* Tensor::get_data(){
-	return data;
+	return &data;
 }
 
 // Setters
 void Tensor::set_num_dims(int n){
 	num_dims = n;
 }
-
 void Tensor::set_num_el(int n){
 	num_el = n;
 }
-void Tensor::set_dims(vector<int>& n){
-	dims = &n;
+void Tensor::set_dims(vector<int> n){
+	dims = n;
 }
 void Tensor::set_data(vector<float>& n){
-	data = &n;
+	data = n;
 }
-// Other functions
-float * Tensor::get_first_p(){
-	return &((*data)[0]);
-}
+
+// Tensor Tensor::operator+=(const Tensor& t){
+// 	vector<int> dst_dims;
+// 	broadcast(*this, t, dst_dims, ADD)
+// 	dst = Tensor(dst_dims)
+// 	vector<float> dst_data(dst.get_num_el(), 2);
+// 	dst.set_data(dst_data);
+// 	return dst;
+        
+// }
+
+// Tensor Tensor::operator+(const Tensor& t){
+// 	*this += t;
+// 	return *this;
+// }

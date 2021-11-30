@@ -7,6 +7,7 @@ using namespace std;
 
 
 void log(string message, message_t type){
+	#ifdef LOGGING
 	// Get the current time
 	time_t now = time(0);
 	tm* ltm = localtime(&now);
@@ -31,4 +32,5 @@ void log(string message, message_t type){
 
 	// Print the message and reset the color
 	cout << message << RESET << endl;;
+	#endif
 }
