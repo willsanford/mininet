@@ -16,52 +16,56 @@ using std::vector;
 // Tensor Contructor
 Tensor::Tensor(vector<int> dims, float initial_num){
 	// Set the number of dimensions and the actual dimensions
-	set_num_dims(dims.size());
 	set_dims(dims);
 
 	// Declare all the data points and initialize to
-	int data_points = 1;
-	for (auto i = dims.begin(); i != dims.end(); ++i){
-		data_points *= *i;
-	}
+	int num_el = vector_product(dims);
 
-	set_num_el(data_points);
-	vector<float> data(data_points, initial_num);
+	vector<float> data(num_el, initial_num);
 	set_data(data);
 };
+
+Tensor::Tensor(vector<int> dims, vector<float> data){
+	// Set the number of dimensions and the actual dimensions
+	set_dims(dims);
+	set_data(data);
+}
 Tensor::~Tensor(){
 	// delete dims;
 	// delete data;
 }
 
 // Getters
-int Tensor::get_num_dims(){
-	return num_dims;
-}
-int Tensor::get_num_el(){
-	return num_el;
-}
+
 vector<int> Tensor::get_dims(){
 	return dims;
 }
-vector<float>* Tensor::get_data(){
-	return &data;
+vector<float>& Tensor::get_data(){
+	return data;
 }
 
-// Setters
-void Tensor::set_num_dims(int n){
-	num_dims = n;
-}
-void Tensor::set_num_el(int n){
-	num_el = n;
-}
+// setters
 void Tensor::set_dims(vector<int> n){
 	dims = n;
 }
 void Tensor::set_data(vector<float>& n){
 	data = n;
 }
+void Tensor::set_data(vector<float>& n, vector<int> dims){
+	data = n;
+	set_dims(dims);
+}
 
+// Utility Functions
+int Tensor::size(){
+	return data.size();
+}
+int Tensor::get_num_dims(){
+	return dims.size();
+}
+
+
+//
 // Tensor Tensor::operator+=(const Tensor& t){
 // 	vector<int> dst_dims;
 // 	broadcast(*this, t, dst_dims, ADD)
@@ -72,7 +76,11 @@ void Tensor::set_data(vector<float>& n){
         
 // }
 
-// Tensor Tensor::operator+(const Tensor& t){
-// 	*this += t;
-// 	return *this;
-// }
+Tensor Tensor::operator+(Tensor& t){
+	vector<float> new_base = broadcast_data(t.get_data(), t.get_dims(), dims);
+	vector<float> new_data(data.size(), 0);
+	for (int i = 0; i < data.size(); i++ ){
+		new_data[i] = new_base[i] + data[i];
+	}
+	return Tensor(dims, new_data);
+}

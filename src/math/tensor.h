@@ -22,19 +22,26 @@ class Tensor{
 	public:
 		// Contructors and destructors
 		Tensor(vector<int> dims, float initial_num = 0);
+		Tensor(vector<int> dims, vector<float> data);
 		~Tensor();
 		
 		// Getters 
-		int get_num_dims();
-		int get_num_el();
 		vector<int> get_dims();
-		vector<float> *get_data();
+		vector<float> &get_data();
 
 		// Setters
 		void set_num_dims(int n);
-		void set_num_el(int n);
 		void set_dims(vector<int> n);
 		void set_data(vector<float>& n);
+		void set_data(vector<float>&data, vector<int> dims); 
+
+		// Utility fucntions
+		int size();
+		int get_num_dims();
+
+		// Operators
+		Tensor operator+(Tensor& t);
+
 };
 
 enum op_t{

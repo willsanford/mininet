@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 # Include the Google Test Sources
 set(TEST_SOURCES test/main.cpp
 		 test/log_test.cpp
+		 test/math_test.cpp
 		 test/tensor_test.cpp)
 
 add_executable(cpp_nn ${TEST_SOURCES})
