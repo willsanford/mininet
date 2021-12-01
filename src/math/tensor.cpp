@@ -73,7 +73,7 @@ int Tensor::get_num_dims(){
 // 	vector<float> dst_data(dst.get_num_el(), 2);
 // 	dst.set_data(dst_data);
 // 	return dst;
-        
+
 // }
 
 Tensor Tensor::operator+(Tensor& t){
@@ -82,5 +82,7 @@ Tensor Tensor::operator+(Tensor& t){
 	for (int i = 0; i < data.size(); i++ ){
 		new_data[i] = new_base[i] + data[i];
 	}
-	return Tensor(dims, new_data);
+    Tensor* out = new Tensor;
+    *out = Tensor(dims, new_data);
+	return *out;
 }
