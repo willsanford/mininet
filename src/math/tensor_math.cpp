@@ -1,104 +1,29 @@
-// #include <cstdlib>
-// #include <iostream>
-// #include <string>
-// #include <vector>
-// #include <algorithm>
-// #include "logs.h"
-// #include "tensor.h"
-// #include "tensor_math.h"
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include "logs.h"
+#include "core.h"
+#include "tensor.h"
+#include "tensor_math.h"
 
-// using std::vector;
-// using std::string;
-// /**
-//     Broadcast the dimensions of two tensors to a destination. Casting will be different for multiplication and addition operations.
-//     Broadcasting general
-//         broadcasting two tensors of shape
-//             t1 = a_n x a_n-1 x .. x a_2 x a_1
-//             t2 = b_n x b_n-1 x .. x b_2 x b_1
-//         will produce a tensor of shape
-//             t3 = max(a_n, b_n) x ... x max(a_1, b_1)
-//         Only three cases are valid. Either a_n and b_n are equal, or one (or both)
-//         are 1, or one of them does not exist
+using std::vector;
 
-//         Examples
-//         t1 = 3x3x3
-//         t2 = 1x3
-//         t3 = 3x3x3
 
-//         t1 = 3x2x3
-//         t2 = 1x3x3
-//         t3 = ERROR
-//     Breaodcasting Multiplication
-// */
-// /**
-//     @brief Tensors must be of the following shape
-//     shape(src1) = a_1 x b_1 x c_1 x ... n_1 x dim_1 x dim_2
-//     shape(src2) = a_2 x b_2 x c_2 x ... n_2 x dim_2 x dim_3
-//    Where for the x_i dimensions, they must be equal or one of them must be one or non existent. The
-//      dimension that is one/does not exist will be cast along the other dimension.
-//    The output tensor will be of the following shape
-//     shape(dst) = max(a_1, a_2) x max(b_1, b_2) ... max(n_1, n_2) x dim_1 x dim_3
-// */
-// TMATH_STATUS tmult(Tensor *src1, Tensor *src2, Tensor *dst){
-//     // Dimension preprocessing
-//     /* Casting types
-//         0 : Even dimensions
-//         1 : Cast 1 to 2
-//         2 : Cast 2 to 1
-//         3 : Cast 1 to 2 and treat 1 (does not exist) as 1
-//         4 : Cast 2 to 1 and treat 2 (does not exist) as 2
-//     */
 
-//     // Create casting information and output matrix dimensions
-//     // int dst_num_dims = max(src1->get_num_dims(), src2->get_num_dims());
+// ASSUMES A PROPERLY BROADCASTED DEST TENSOR
+template<class T> 
+TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst){
+    vector<T> data2 = broadcast_data(src2.get_data(), src2.get_dims(), src1.get_dims());
+    vector<T> data1 = src1.get_data();
+    vector<T> out_data(src1.size());
 
-//     // int* casting = (int *) malloc()
-//     return TMATH_SUCCESS;
-// }
-// /**
-//     Multiply every value in a tensor by
-// */
-// TMATH_STATUS tmult_const(Tensor *src, float add){
-//     return TMATH_SUCCESS;
-// }
-// /**
-//     Add a single constant to all the elements of a tensor that correspond to non zero elements in the mask tensor
-// */
-// TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask){
-//     return TMATH_SUCCESS;
-// }
-// /**
-//     Add two tensors. Broadcast src2 onto src1 to create dst
-// */
-// TMATH_STATUS tadd(Tensor& src1, Tensor& src2, Tensor& dst){
-//     // Get the output dimensions
-//     vector<int> dst_dims;
+    for (int i; i < src1.size(); i++){
+        out_data[i] = data1[i] + data2[i];
+    }   
+    dst.set_data(out_data);
+    return TMATH_SUCCESS;
+};
 
-//     // Broadcast
-//     if (!broadcast(src1, src2, dst_dims, ADD)){
-//         return TMATH_FAILURE;
-//     }
-
-//     dst = Tensor(dst_dims);
-
-//     vector<float> src1_d = *src1.get_data();
-//     vector<float> src2_d = *src2.get_data();
-//     vector<float> dst_data(dst.get_num_el(), 2);
-
-//     dst.set_data(dst_data);
-//     return TMATH_SUCCESS;
-// }
-
-// /**
-//     Add a single constant to all the elements of a tensor
-// */
-// TMATH_STATUS tadd_const(Tensor *src, float add){
-
-//     return TMATH_SUCCESS;
-// }
-// /**
-//     Add a single constant to all the elements of a tensor that correspond to non zero elements in the mask tensor
-// */
-// TMATH_STATUS tadd_const_mask(Tensor *src, float add, Tensor *mask){
-//     return TMATH_SUCCESS;
-// }
+template TMATH_STATUS tadd<float>(Tensor<float>& src1, Tensor<float>& src2, Tensor<float>& dst);

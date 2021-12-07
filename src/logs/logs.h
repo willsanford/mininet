@@ -1,3 +1,8 @@
+
+#ifndef LOGS_H
+#define LOGS_H
+
+
 #include <cstdlib>
 #include <string>
 
@@ -18,3 +23,5 @@ enum message_t {
 #define GREEN   "\033[32m"
 #define YELLOW  "\033[33m"
 void log(string message, message_t type = LOG);
+
+#endif

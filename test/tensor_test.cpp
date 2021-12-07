@@ -1,11 +1,16 @@
 #include <cstdlib>
 #include <vector>
 #include "gtest/gtest.h"
-#include "tensor.h"
 #include "core.h"
+#include "tensor.h"
+#include "tensor_math.h"
+
+
 // #include "tensor_math.h"
 
 using std::vector;
+
+
 class TENSOR_UNITTEST : public ::testing::Test{
 	protected:
 		virtual void SetUp(){
@@ -22,7 +27,7 @@ TEST_F(TENSOR_UNITTEST, GETTERS_AND_SETTERS_1){
 	vector<int> dims = {3,3};
 	vector<float> data = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-	Tensor tensor = Tensor(dims, data);
+	Tensor<float> tensor = Tensor<float>(dims, data);
 
 
 	// Check that the getters work properly
@@ -123,16 +128,13 @@ Check that the following broadcasting behaviour works
 				 |-                       -|
 **********************************************/
 TEST_F(TENSOR_UNITTEST, BROADCASTING_6){
-	
 	vector<int> dims1 = {3,3};
 	vector<int> dims2 = {3,3,3};
 	vector<float> data1 = {1,2,3,4,5,6,7,8,9};
 	vector<float> data2 = {1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9};
 
-	ASSERT_EQ(data2, broadcast_data(data1, dims1, dims2));
+	ASSERT_EQ(data2, broadcast_data<float>(data1, dims1, dims2));
 }
-
-
 
 /*********************************************
 Check that the following broadcasting behaviour works
@@ -150,8 +152,12 @@ TEST_F(TENSOR_UNITTEST, Addition_1){
 	vector<float> data2 = {1,2,3,4,5,6,7,8,9};
 
 	vector<float> out_data = {2,3,4,5,6,7,8,9,10};
-	Tensor ten1 = Tensor(dims1, data1);
-	Tensor ten2 = Tensor(dims2, data2);
-	Tensor ten3 = ten2 + ten1;
+
+	Tensor<float> ten1(dims1, data1);
+	Tensor<float> ten2(dims2, data2);
+	Tensor<float> ten3(broadcast_dims(dims1, dims2));
+	
+	TMATH_STATUS tadd<float>(ten1, ten2, ten3);
+	
 	ASSERT_EQ(out_data, ten3.get_data());
 }

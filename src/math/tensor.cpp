@@ -12,57 +12,81 @@
 #include "tensor.h"
 #include "core.h"
 
-// TODO: Change to be using std::array
-
 using std::vector;
 // Tensor Contructor
-Tensor::Tensor(vector<int> dims, float initial_num){
+template<class T>
+Tensor<T>::Tensor(vector<int> dims){
+	set_dims(dims);
+		// Declare all the data points and initialize to
+	int num_el = vector_product(dims);
+
+	vector<T> data(num_el);
+	set_data(data);
+}
+
+
+
+template<class T>
+Tensor<T>::Tensor(vector<int> dims, T fill_value){
 	// Set the number of dimensions and the actual dimensions
 	set_dims(dims);
 
 	// Declare all the data points and initialize to
 	int num_el = vector_product(dims);
 
-	vector<float> data(num_el, initial_num);
+	vector<T> data(num_el, fill_value);
 	set_data(data);
 };
 
-Tensor::Tensor(vector<int> dims, vector<float> data){
+
+template<class T>
+Tensor<T>::Tensor(vector<int> dims, vector<T> data){
 	// Set the number of dimensions and the actual dimensions
 	set_dims(dims);
 	set_data(data);
 }
-Tensor::~Tensor(){
+
+template<class T>
+Tensor<T>::~Tensor(){
 	// delete dims;
 	// delete data;
 }
 
 // Getters
-
-vector<int> Tensor::get_dims(){
+template<class T>
+vector<int> Tensor<T>::get_dims(){
 	return dims;
 }
-vector<float>& Tensor::get_data(){
+template<class T>
+vector<T>& Tensor<T>::get_data(){
 	return data;
 }
 
 // setters
-void Tensor::set_dims(vector<int> n){
+template<class T>
+void Tensor<T>::set_dims(vector<int> n){
 	dims = n;
 }
-void Tensor::set_data(vector<float>& n){
+
+
+template<class T>
+void Tensor<T>::set_data(vector<T>& n){
 	data = n;
 }
-void Tensor::set_data(vector<float>& n, vector<int> dims){
+
+template<class T>
+void Tensor<T>::set_data(vector<T>& n, vector<int> dims){
 	data = n;
 	set_dims(dims);
 }
 
 // Utility Functions
-int Tensor::size(){
+template<class T>
+int Tensor<T>::size(){
 	return data.size();
 }
-int Tensor::get_num_dims(){
+template<class T>
+int Tensor<T>::get_num_dims(){
 	return dims.size();
 }
 
@@ -78,13 +102,5 @@ int Tensor::get_num_dims(){
 
 // }
 
-Tensor Tensor::operator+(Tensor& t){
-	vector<float> new_base = broadcast_data(t.get_data(), t.get_dims(), dims);
-	vector<float> new_data(data.size(), 0);
-	for (int i = 0; i < data.size(); i++ ){
-		new_data[i] = new_base[i] + data[i];
-	}
-    Tensor* out = new Tensor;
-    *out = Tensor(dims, new_data);
-	return *out;
-}
+template class Tensor<int>;
+template class Tensor<float>;

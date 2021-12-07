@@ -13,27 +13,31 @@
 #include <vector>
 
 using std::vector;
+
+
+template<class T>
 class Tensor{
 	private:
 		int num_dims;
 		int num_el;
 		vector<int> dims;
-		vector<float> data;
+		vector<T> data;
 	public:
 		// Contructors and destructors
-		Tensor(vector<int> dims, float initial_num = 0);
-		Tensor(vector<int> dims, vector<float> data);
+		Tensor(vector<int> dims);
+		Tensor(vector<int> dims, T fill_value);
+		Tensor(vector<int> dims, vector<T> data);
 		~Tensor();
 		
 		// Getters 
 		vector<int> get_dims();
-		vector<float> &get_data();
+		vector<T> &get_data();
 
 		// Setters
 		void set_num_dims(int n);
 		void set_dims(vector<int> n);
-		void set_data(vector<float>& n);
-		void set_data(vector<float>&data, vector<int> dims); 
+		void set_data(vector<T>& n);
+		void set_data(vector<T>&data, vector<int> dims); 
 
 		// Utility fucntions
 		int size();

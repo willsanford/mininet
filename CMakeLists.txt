@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.14)
 project(cpp_nn)
 
 
-
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED)
 
@@ -26,3 +25,5 @@ target_link_libraries(cpp_nn PUBLIC
 			  pthread
 		      LogsLib
 		      MathLib)
+
+target_compile_features(cpp_nn PRIVATE cxx_std_17)
