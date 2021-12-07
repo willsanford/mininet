@@ -12,6 +12,8 @@
 #include "tensor.h"
 #include "core.h"
 
+// TODO: Change to be using std::array
+
 using std::vector;
 // Tensor Contructor
 Tensor::Tensor(vector<int> dims, float initial_num){
