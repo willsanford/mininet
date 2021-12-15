@@ -18,6 +18,7 @@ enum TMATH_STATUS{
 // TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask);
 
 template<class T> TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst);
+
 // TMATH_STATUS tadd_const(Tensor *src, float add);
 // TMATH_STATUS tensor_mult  (Tensor *src1, Tensor *src2, Tensor *dst);
 

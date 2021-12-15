@@ -136,28 +136,36 @@ TEST_F(TENSOR_UNITTEST, BROADCASTING_6){
 	ASSERT_EQ(data2, broadcast_data<float>(data1, dims1, dims2));
 }
 
+
 /*********************************************
-Check that the following broadcasting behaviour works
-				 |-                       -|
-[1 2 3]          | [1 2 3] [1 2 3] [1 2 3] |
-[4 5 6] (3x3) -> | [4 5 6] [4 5 6] [4 5 5] |  (3X3X3)
-[7 8 9]          | [7 8 9] [7 8 9] [7 8 9] |
-				 |-                       -|
+Check that the following addition behaviour works
+				 
+[1 2 3]                   [2 3 4 ]
+[4 5 6] (3x3) + [1] (1) = [5 6 7 ] (3X3)
+[7 8 9]                   [8 9 10]
 **********************************************/
 TEST_F(TENSOR_UNITTEST, Addition_1){
 	
-	vector<int> dims1 = {1};
-	vector<int> dims2 = {3,3};
-	vector<float> data1 = {1};
-	vector<float> data2 = {1,2,3,4,5,6,7,8,9};
-
+	vector<int> dims1 = {3,3};
+	vector<int> dims2 = {1};
+	
+	vector<float> data1 = {1,2,3,4,5,6,7,8,9};
+	vector<float> data2 = {1};
+	
 	vector<float> out_data = {2,3,4,5,6,7,8,9,10};
 
 	Tensor<float> ten1(dims1, data1);
 	Tensor<float> ten2(dims2, data2);
+
+
 	Tensor<float> ten3(broadcast_dims(dims1, dims2));
+	Tensor<float> ten4(broadcast_dims(dims1, dims2));
 	
-	TMATH_STATUS tadd<float>(ten1, ten2, ten3);
-	
+	TMATH_STATUS result = tadd<float>(ten1, ten2, ten3);
+	ASSERT_EQ(result, TMATH_SUCCESS);
 	ASSERT_EQ(out_data, ten3.get_data());
-}
+
+	TMATH_STATUS result2 = tadd<float>(ten2, ten1, ten4);
+	ASSERT_EQ(result2, TMATH_SUCCESS);
+	ASSERT_EQ(out_data, ten4.get_data());
+} 

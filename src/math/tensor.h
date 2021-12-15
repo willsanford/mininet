@@ -48,9 +48,4 @@ class Tensor{
 
 };
 
-enum op_t{
-    ADD = 0,
-    MULT = 1
-};
-
 #endif

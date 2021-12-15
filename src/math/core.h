@@ -8,20 +8,26 @@
 
 using std::vector;
 
+enum OP{
+    ADD = 0,
+    MULT = 1
+};
+
 // Broadcasting functions
-int check_broadcast_dims(vector<int> &a, vector<int> &b);
-
+int check_broadcast_dims(const vector<int> &a, const vector<int> &b);
 vector<int> broadcast_dims(vector<int> &a, vector<int> &b);
+template<class T>  vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<int> output_dims);
+int check_multiplication_dims(const vector<int> &a, const vector<int> &b);
 
-template<class T> 
-vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<int> output_dims);
+
 
 // Utility Functions
 int vector_product(vector<int> input);
+template<class T> vector<T> slice(const vector<T>, int statrt, int, end);
 
 
 
-
+// Template Implementations
 template<class T>
 vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<int> output_dims){
     if (!check_broadcast_dims(input_dims, output_dims)){
@@ -39,5 +45,22 @@ vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<in
 
     return output_data;
 }
+
+template<class T> vector<T> slice(const vector<T>input, int start, int, end){
+    auto start = input.begin() + start;
+    auto end = input.begin() + end + 1;
+    
+    // Get a vector of the correct size
+    vector<T> result(Y - X + 1);
+ 
+    // Copy in the data
+    std::copy(start, end, result.begin());
+ 
+    return result;
+}
+
+
+
+
 
 #endif
