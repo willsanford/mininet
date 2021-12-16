@@ -13,7 +13,7 @@ enum TMATH_STATUS{
     CPU dependant Math library functions
 */
 // TMATH_STATUS broadcast(Tensor& src1, Tensor& src2, vector<int>& dst, op_t op = ADD);
-// TMATH_STATUS tmult(Tensor *src1, Tensor *src2, Tensor *dst);
+template<class T> TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst);
 // TMATH_STATUS tmult_const(Tensor *src, float add);
 // TMATH_STATUS tmult_const_mask(Tensor *src, float add, Tensor *mask);
 

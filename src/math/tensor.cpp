@@ -13,7 +13,14 @@
 #include "core.h"
 
 using std::vector;
-// Tensor Contructor
+// Tensor Contructors
+
+// Blank Constructors
+template<class T> 
+Tensor<T>::Tensor(){
+
+}
+
 template<class T>
 Tensor<T>::Tensor(vector<int> dims){
 	set_dims(dims);

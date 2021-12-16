@@ -23,8 +23,8 @@ int check_multiplication_dims(const vector<int> &a, const vector<int> &b);
 
 // Utility Functions
 int vector_product(vector<int> input);
-template<class T> vector<T> slice(const vector<T>, int statrt, int, end);
-
+template<class T> vector<T> slice(const vector<T>, int a, int b);
+template<class T> vector<T> mmult(const vector<T>& src1, const vector<T>& src2, int m, int n, int p);
 
 
 // Template Implementations
@@ -46,12 +46,12 @@ vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<in
     return output_data;
 }
 
-template<class T> vector<T> slice(const vector<T>input, int start, int, end){
-    auto start = input.begin() + start;
-    auto end = input.begin() + end + 1;
+template<class T> vector<T> slice(const vector<T>input, int a, int b){
+    auto start = input.begin() + a;
+    auto end = input.begin() + b + 1;
     
     // Get a vector of the correct size
-    vector<T> result(Y - X + 1);
+    vector<T> result(b - a + 1);
  
     // Copy in the data
     std::copy(start, end, result.begin());
@@ -60,7 +60,25 @@ template<class T> vector<T> slice(const vector<T>input, int start, int, end){
 }
 
 
+/*
+ Multiply the matrices src1 and src2, where  src1 = [mxn] and src2 = [nxp]
+*/
+template<class T> vector<T> mmult(const vector<T> &src1, const vector<T> &src2, int m, int n, int p){
+    vector<T> out(m*p, 0);
 
+    // Loop through all the elements in the output
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < p; j++){
+            // calculate the actual index of the output vector
+            int c = j + i * p;
+            T sum = 0;  
+            for (int k = 0; k < n; k++){
+                sum += src1[k + i * m] * src2[j + k * p];
+            }
+            out[c] = sum;
+        }
+    }
 
-
+    return out;
+}
 #endif

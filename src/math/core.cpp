@@ -8,9 +8,8 @@ using std::vector;
 
 // Broadcasting
 
-'''
-Check that the two input dimension vectors can be broadcasted together.
-'''
+// Check that the two input dimension vectors can be broadcasted together.
+
 int check_broadcast_dims(const vector<int> &a, const vector<int> &b){
     // determine which array has more values
     vector<int> small;
@@ -36,12 +35,10 @@ int check_broadcast_dims(const vector<int> &a, const vector<int> &b){
     return 0;
 }
 
-'''
-Check that the tensor multiplication of a * b will work.
-'''
+// Check that the tensor multiplication of a * b will work.
 int check_multiplication_dims(const vector<int> &a, const vector<int> &b){
     // Both tensors must have a size of at least 2 to be valid
-    if (a.size() < 2 | b.size_() < 2){
+    if (a.size() < 2 | b.size() < 2){
         return 1;
     }
 
@@ -59,7 +56,7 @@ int check_multiplication_dims(const vector<int> &a, const vector<int> &b){
     vector<int> new_a = slice<int>(a, 0, a.size()-2);
     vector<int> new_b = slice<int>(b, 0, b.size()-2);
 
-    return check_braodcast_dims(new_a, new_b);
+    return check_broadcast_dims(new_a, new_b);
 
 
 }

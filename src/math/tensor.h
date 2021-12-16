@@ -24,6 +24,7 @@ class Tensor{
 		vector<T> data;
 	public:
 		// Contructors and destructors
+		Tensor();
 		Tensor(vector<int> dims);
 		Tensor(vector<int> dims, T fill_value);
 		Tensor(vector<int> dims, vector<T> data);
