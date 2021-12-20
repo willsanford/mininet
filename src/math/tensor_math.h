@@ -5,8 +5,8 @@
 #include "core.h"
 
 enum TMATH_STATUS{
-    TMATH_FAILURE = 0,
-    TMATH_SUCCESS = 1
+    TMATH_FAILURE = 1,
+    TMATH_SUCCESS = 0
 };
 
 /*

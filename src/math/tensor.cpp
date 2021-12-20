@@ -16,7 +16,7 @@ using std::vector;
 // Tensor Contructors
 
 // Blank Constructors
-template<class T> 
+template<class T>
 Tensor<T>::Tensor(){
 
 }

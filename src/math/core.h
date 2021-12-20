@@ -33,7 +33,7 @@ vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<in
     if (!check_broadcast_dims(input_dims, output_dims)){
         log("Trying to broadcast data to an incompatible type", ERROR);
     }
-    
+
     int out_size = vector_product(output_dims);
     int in_size = vector_product(input_dims);
 
@@ -41,7 +41,7 @@ vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<in
 
     for (int i = 0; i < out_size; i++){
         output_data[i] = input_data[i % in_size];
-    } 
+    }
 
     return output_data;
 }
@@ -49,13 +49,13 @@ vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<in
 template<class T> vector<T> slice(const vector<T>input, int a, int b){
     auto start = input.begin() + a;
     auto end = input.begin() + b + 1;
-    
+
     // Get a vector of the correct size
     vector<T> result(b - a + 1);
- 
+
     // Copy in the data
     std::copy(start, end, result.begin());
- 
+
     return result;
 }
 
@@ -71,7 +71,7 @@ template<class T> vector<T> mmult(const vector<T> &src1, const vector<T> &src2, 
         for(int j = 0; j < p; j++){
             // calculate the actual index of the output vector
             int c = j + i * p;
-            T sum = 0;  
+            T sum = 0;
             for (int k = 0; k < n; k++){
                 sum += src1[k + i * m] * src2[j + k * p];
             }

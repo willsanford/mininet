@@ -27,7 +27,7 @@ int check_broadcast_dims(const vector<int> &a, const vector<int> &b){
         int ind_a = small.size() - 1 - i;
         int ind_b = ind_a + (large.size() - small.size());
 
-        // If any of the conditions are not true, then 
+        // If any of the conditions are not true, then
         if (!((a[ind_a] == b[ind_b]) | (a[ind_a] == 1) | (b[ind_b] == 1))){
             return 1;
         }
@@ -43,7 +43,7 @@ int check_multiplication_dims(const vector<int> &a, const vector<int> &b){
     }
 
     // Check that the base two dimensions are valid under matrix multiplication
-    if (a.back() != b.end()[-2]){
+    if (a.end()[-1] != b.end()[-2]){
         return 1;
     }
 
@@ -52,14 +52,14 @@ int check_multiplication_dims(const vector<int> &a, const vector<int> &b){
         return 0;
     }
 
-    // Otherwise we will run the check dimensions functions on the rest of the dimensions   
-    vector<int> new_a = slice<int>(a, 0, a.size()-2);
-    vector<int> new_b = slice<int>(b, 0, b.size()-2);
+    // Otherwise we will run the check dimensions functions on the rest of the dimensions
+    vector<int> new_a = slice<int>(a, 0, a.size()-3);
+    vector<int> new_b = slice<int>(b, 0, b.size()-3);
 
     return check_broadcast_dims(new_a, new_b);
-
-
 }
+
+
 vector<int> broadcast_dims(vector<int> &a, vector<int> &b){
     // create the output vector
     vector<int> out(std::max(a.size(), b.size()), 0);
@@ -82,7 +82,7 @@ vector<int> broadcast_dims(vector<int> &a, vector<int> &b){
     for (int i = 0; i < out.size(); i++){
         if (a[i] == 1) out[i] = b[i];
         else out[i] = a[i];
-    }   
+    }
 
     return out;
 }
