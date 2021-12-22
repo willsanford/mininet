@@ -174,9 +174,9 @@ TEST_F(TENSOR_UNITTEST, Addition_1){
 /*********************************************
 Check that the following addition behaviour works
 
-[1 2 3]                   [2 3 4 ]
-[4 5 6] (3x3) + [1] (1) = [5 6 7 ] (3X3)
-[7 8 9]                   [8 9 10]
+[1 2 3]         [[1,2,3] [1,2,3] [1,2,3]]           [[ 30, 36, 42][ 30, 36, 42][ 30, 36, 42]] 
+[4 5 6] (3x3) x [[4,5,6] [4,5,6] [4,5,6]] (3x3x3) = [[ 66, 81, 96][ 66, 81, 96][ 66, 81, 96]] (3x3x3)
+[7 8 9]         [[7,8,9] [7,8,9] [7,8,9]]           [[102,126,150][102,126,150][102,126,150]] 
 **********************************************/
 TEST_F(TENSOR_UNITTEST, MULTIPLICATION_1){
 
@@ -202,6 +202,49 @@ TEST_F(TENSOR_UNITTEST, MULTIPLICATION_1){
 	vector<float> out_data = {30,36,42,66,81,96,102,126,150,
 	                          30,36,42,66,81,96,102,126,150,
 	                          30,36,42,66,81,96,102,126,150};
+    vector<int> out_dims = {3,3,3};
+	Tensor<float> ten1(dims1, data1);
+	Tensor<float> ten2(dims2, data2);
+    Tensor<float> ten3(out_dims, 0);
+
+
+	TMATH_STATUS result = tmult<float>(ten1, ten2, ten3);
+	ASSERT_EQ(result, TMATH_SUCCESS);
+	ASSERT_EQ(out_data, ten3.get_data());
+}
+
+
+/*********************************************
+Check that the following addition behaviour works
+
+[1 2 3]         [[1,2,3] [1,2,3] [1,2,3]]           [[ 30, 36, 42][ 30, 36, 42][ 30, 36, 42]] 
+[4 5 6] (3x3) x [[4,5,6] [4,5,6] [4,5,6]] (3x3x3) = [[ 66, 81, 96][ 66, 81, 96][ 66, 81, 96]] (3x3x3)
+[7 8 9]         [[7,8,9] [7,8,9] [7,8,9]]           [[102,126,150][102,126,150][102,126,150]] 
+**********************************************/
+TEST_F(TENSOR_UNITTEST, MULTIPLICATION_2){
+
+	vector<int> dims1 = {3,3,3};
+	vector<int> dims2 = {3,3};
+
+	vector<float> data1 = {1,2,3,
+                           4,5,6,
+                           7,8,9,
+
+                           10,11,12,
+                           13,14,15,
+                           16,17,18,
+
+                           19,20,21,
+                           22,23,24,
+                           25,26,27};
+
+	vector<float> data2 = {1,2,3,
+                           4,5,6,
+                           7,8,9};
+
+	vector<float> out_data = {30,36,42,66,81,96,102,126,150,
+							  138,171,204,174,216,258,210,261,312,
+	                          246,306,366,282,351,420,318,396,474};
     vector<int> out_dims = {3,3,3};
 	Tensor<float> ten1(dims1, data1);
 	Tensor<float> ten2(dims2, data2);

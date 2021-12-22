@@ -12,8 +12,8 @@ using std::vector;
 
 template<class T>
 TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst){
-    //   Check if we can multiply these vectors
-    if(!(check_multiplication_dims(src1.get_dims(), src2.get_dims()))){
+    // Check if we can multiply these vectors
+    if(check_multiplication_dims(src1.get_dims(), src2.get_dims())){
         return TMATH_FAILURE;
     }
 
@@ -59,20 +59,19 @@ TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst){
 
     // Declare the output vector
     vector<T> output_data(vector_product(dst.get_dims()));
-
     // Run all the matrix multriplications
     for (int i = 0; i < factor_out; i++){
         // Get the appropirate slices of the inputs that will correspond to this matrix in the output
-        int left_index = i % (factor_out / factor_1);
+        int left_index = i % factor_1;
         int left_start = left_index * left_size;
-        int left_end = (left_index + 1) * left_size;
+        int left_end = (left_index + 1) * left_size - 1;
         vector<T> left_slice = slice<T>(data1, left_start, left_end);
-
-        int right_index = i % (factor_out / factor_2);
+        
+        int right_index = i % factor_2; 
         int right_start = right_index * right_size;
-        int right_end = (right_index + 1) * right_size;
+        int right_end = (right_index + 1) * right_size - 1;
         vector<T> right_slice = slice<T>(data2, right_start, right_end);
-
+        
         // Run the matrix multiplication
         vector<T> out_section = mmult<T>(left_slice, right_slice, m, n, p);
 
