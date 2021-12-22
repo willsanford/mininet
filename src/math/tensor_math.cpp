@@ -85,9 +85,6 @@ TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst){
 }
 
 
-/*
-Addition Comment Here
-*/
 template<class T>
 TMATH_STATUS tadd(Tensor<T>& in1, Tensor<T>& in2, Tensor<T>& dst){
     Tensor<T> src1;
@@ -115,5 +112,5 @@ TMATH_STATUS tadd(Tensor<T>& in1, Tensor<T>& in2, Tensor<T>& dst){
 
 
 // Template Declarations
-template TMATH_STATUS tadd(Tensor<float>& src1, Tensor<float>& src2, Tensor<float>& dst);
+template TMATH_STATUS tadd(Tensor<float> &src1, Tensor<float>& src2, Tensor<float>& dst);
 template TMATH_STATUS tmult(Tensor<float> &src1, Tensor<float> &src2, Tensor<float> &dst);

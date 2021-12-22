@@ -1,6 +1,9 @@
 # cmake build files
 build/
 
-# VSCode files 
+# VSCode files
 .vscode
 .vs
+
+# Doxygen output files
+doxygen/
