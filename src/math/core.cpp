@@ -10,7 +10,7 @@ using std::vector;
 
 // Check that the two input dimension vectors can be broadcasted together.
 
-int check_broadcast_dims(const vector<int> &a, const vector<int> &b){
+bool check_broadcast_dims(const vector<int> &a, const vector<int> &b){
     // determine which array has more values
     vector<int> small;
     vector<int> large;
@@ -29,27 +29,28 @@ int check_broadcast_dims(const vector<int> &a, const vector<int> &b){
 
         // If any of the conditions are not true, then
         if (!((a[ind_a] == b[ind_b]) | (a[ind_a] == 1) | (b[ind_b] == 1))){
-            return 1;
+            return false;
         }
     }
-    return 0;
+    return true;
 }
 
 // Check that the tensor multiplication of a * b will work.
-int check_multiplication_dims(const vector<int> &a, const vector<int> &b){
+// Returns true if the dimensions are valid and false if they are not
+bool check_multiplication_dims(const vector<int> &a, const vector<int> &b){
     // Both tensors must have a size of at least 2 to be valid
     if (a.size() < 2 | b.size() < 2){
-        return 1;
+        return false;
     }
 
     // Check that the base two dimensions are valid under matrix multiplication
     if (a.end()[-1] != b.end()[-2]){
-        return 1;
+        return true;
     }
 
     // If this is true and either vector has no other dimensions past the first two, then the multiplication is valid. Otherwise, run
     if (a.size() == 2 | b.size() == 2){
-        return 0;
+        return true;
     }
 
     // Otherwise we will run the check dimensions functions on the rest of the dimensions
