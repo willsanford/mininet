@@ -86,31 +86,67 @@ TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst){
 
 
 template<class T>
-TMATH_STATUS tadd(Tensor<T>& in1, Tensor<T>& in2, Tensor<T>& dst){
-    Tensor<T> src1;
-    Tensor<T> src2;
-    if (check_broadcast_dims(in1.get_dims(), in2.get_dims())){
-        src1 = in1;
-        src2 = in2;
-    }else if(check_broadcast_dims(in2.get_dims(), in1.get_dims())){
-        src1 = in2;
-        src2 = in1;
-    }else{
+TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst){
+    // Check that the tensors are able to be broadcast and determine the output dimension
+
+    if (!check_broadcast_dims(src1.get_dims(), src2.get_dims())){
         return TMATH_FAILURE;
     }
 
-    vector<T> data2 = broadcast_data(src2.get_data(), src2.get_dims(), src1.get_dims());
-    vector<T> data1 = src1.get_data();
-    vector<T> out_data(src1.size());
+    vector<int> output_dims = broadcast_dims(src1.get_dims(), src2.get_dims());
+    int output_size = vector_product(output_dims);
+    vector<T> output_data(output_size);
 
-    for (int i = 0; i < src1.size(); i++){
-        out_data[i] = data1[i] + data2[i];
+    int src1_size = src1.size();
+    int src2_size = src2.size();
+
+    vector<T> src1_data = src1.get_data();
+    vector<T> src2_data = src2.get_data();
+
+    for (int i = 0; i < output_size; i++){
+        output_data[i] = src1_data[i % src1_size] + src2_data[i % src2_size];
     }
-    dst.set_data(out_data);
-    return TMATH_SUCCESS;
-};
 
+    dst.set_data(output_data, output_dims);
+    return TMATH_SUCCESS;
+}
+
+template<class T>
+TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace, Tensor<T>& dst){
+    vector<T> src_data = src.get_data();
+    vector<T> new_data(src.size(), 0);
+    for (int i = 0; i < src.size(); i++){
+        switch(op){
+            case ADD:
+                new_data[i] = src_data[i] + operand;
+                break;
+            case MULT:
+                new_data[i] = src_data[i] * operand;
+                break;
+
+            // Default to addition for now
+            default:
+                new_data[i] = src_data[i] + operand;
+                break;
+        }
+    }
+    // Place the new data where it is supposed to go
+    if (inplace){
+        src.set_data(new_data);
+    }else{
+        dst.set_data(new_data, src.get_dims());
+    }
+    return TMATH_SUCCESS;
+}
+
+template<class T>
+TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op, bool inplace, Tensor<T>& dst){
+    return TMATH_SUCCESS;
+
+}
 
 // Template Declarations
 template TMATH_STATUS tadd(Tensor<float> &src1, Tensor<float>& src2, Tensor<float>& dst);
 template TMATH_STATUS tmult(Tensor<float> &src1, Tensor<float> &src2, Tensor<float> &dst);
+template TMATH_STATUS tconst_op(Tensor<float>& src, float operand, OP op, bool inplace, Tensor<float>& dst);
+template TMATH_STATUS telwise_op(Tensor<float>& src, Tensor<float>& src2, OP op, bool inplace, Tensor<float>& dst);

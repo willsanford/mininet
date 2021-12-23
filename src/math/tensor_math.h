@@ -20,8 +20,6 @@ enum TMATH_STATUS{
     TMATH_SUCCESS = 0
 };
 
-
-
 /*! \brief Tensor Multiplication
  * @param src1 Left side of the tensor multiplication 
  * @param src2 Right side of the tensor multiplication
@@ -45,8 +43,6 @@ enum TMATH_STATUS{
  */
 template<class T> TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst);
 
-
-
 /*! \brief Tensor Addition
  * @param src1 First operand of the addition
  * @param src2 Second operand of the addition
@@ -57,6 +53,36 @@ template<class T> TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T>
 template<class T> TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst);
 
 
+/*! \brief Constant Tensor Operation
+ * @param src First operand of the addition
+ * @param operand Second operand of the addition
+ * @param op The operation to be applied.
+ * @param inplace Determines whether the the addition operation should be applied to the source tensor, or a provided output tensor. Default = true
+ * @param dst If inplace is true, then the output will become data of this input tensor. Default = NULL
+ * @returns TMATH_STATUS If the operation is successful, TMATH_SUCCESS is returned, otherwise return TMATH_FAILURE
+ * # Constant Tensor Operation
+ * Will perform the given operation with the given operand on every element of the input array. \
+ * If inplce is true, then the output of the operation will be applied to the input tensor, but if it is false, then the output will be applied to the given destination tensor.\
+ * ## Currently supported operations
+ * Multiplication, Division, Addition, Subtraction
+ */
+template<class T> TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace = true, Tensor<T>& dst = NULL);
+
+/*! \brief Elementwise Tensor Operatin
+ * @param src1 First operand of the addition
+ * @param src2 Second operand of the addition
+ * @param op The operation to be applied.
+ * @param inplace Determines whether the the addition operation should be applied to the source tensor, or a provided output tensor. Default = true
+ * @param dst If inplace is true, then the output will become data of this input tensor. Default = NULL
+ * @returns TMATH_STATUS If the operation is successful, TMATH_SUCCESS is returned, otherwise return TMATH_FAILURE
+ * # Constant Tensor Operation
+ * Will perform the given operation on every element of the input tensor, with the second opetensor, with the second ope rand being the corresponding element in src1. \
+ * The dimensions of src1 and src2 must be equal for this operation to succeed
+ * If inplce is true, then the output of the operation will be applied to the input tensor, but if it is false, then the output will be applied to the given destination tensor.\
+ * ## Currently supported operations
+ * Multiplication, Division, Addition, Subtraction
+ */
+template<class T> TMATH_STATUS telwise_op(Tensor<T>& src, T operand, OP op, bool inplace = true, Tensor<T>& dst = NULL);
 
 // TO Implement
 // TMATH_STATUS tmult_const(Tensor *src, float add);

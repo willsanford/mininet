@@ -156,10 +156,11 @@ TEST_F(TENSOR_UNITTEST, Addition_1){
 	Tensor<float> ten1(dims1, data1);
 	Tensor<float> ten2(dims2, data2);
 
-
+	
 	Tensor<float> ten3(broadcast_dims(dims1, dims2));
 	Tensor<float> ten4(broadcast_dims(dims1, dims2));
 
+	// Check that the results work either way the tensors are input
 	TMATH_STATUS result = tadd<float>(ten1, ten2, ten3);
 	ASSERT_EQ(result, TMATH_SUCCESS);
 	ASSERT_EQ(out_data, ten3.get_data());

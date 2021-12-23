@@ -15,7 +15,7 @@ enum OP{
 
 // Broadcasting functions
 bool check_broadcast_dims(const vector<int> &a, const vector<int> &b);
-vector<int> broadcast_dims(vector<int> &a, vector<int> &b);
+vector<int> broadcast_dims(const vector<int> &input1, const vector<int> &input2);
 template<class T>  vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<int> output_dims);
 bool check_multiplication_dims(const vector<int> &a, const vector<int> &b);
 

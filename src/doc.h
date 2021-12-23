@@ -1,7 +1,7 @@
  /** 
- * @mainpage Triangle Library Documentation
+ * @mainpage mininet Library Documentation
  * @section intro_sec Introduction
- * This is the Triangle C++ library for C++ Documentation Tutorial.
+ * This is the Introduction section.
  * @section install_sec Installation
  *
  * @subsection install_dependencies Installing Dependencies

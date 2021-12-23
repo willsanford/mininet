@@ -24,11 +24,11 @@ bool check_broadcast_dims(const vector<int> &a, const vector<int> &b){
 
     // Loop through the elements of the smaller array and right most elements of the larger array
     for (int i = 0; i < small.size(); i++){
-        int ind_a = small.size() - 1 - i;
-        int ind_b = ind_a + (large.size() - small.size());
+        int ind_s = small.size() - 1 - i;
+        int ind_l = ind_s + (large.size() - small.size());
 
         // If any of the conditions are not true, then
-        if (!((a[ind_a] == b[ind_b]) | (a[ind_a] == 1) | (b[ind_b] == 1))){
+        if (!((small[ind_s] == large[ind_l]) | (small[ind_s] == 1) | (large[ind_l] == 1))){
             return false;
         }
     }
@@ -61,8 +61,10 @@ bool check_multiplication_dims(const vector<int> &a, const vector<int> &b){
 }
 
 
-vector<int> broadcast_dims(vector<int> &a, vector<int> &b){
+vector<int> broadcast_dims(const vector<int> &input1, const vector<int> &input2){
     // create the output vector
+    vector<int> a = input1;
+    vector<int> b = input2;
     vector<int> out(std::max(a.size(), b.size()), 0);
 
     // Fill in the dimensions of the smaller array with ones
