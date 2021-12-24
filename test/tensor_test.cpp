@@ -255,3 +255,73 @@ TEST_F(TENSOR_UNITTEST, MULTIPLICATION_2){
 	ASSERT_EQ(result, TMATH_SUCCESS);
 	ASSERT_EQ(out_data, ten3.get_data());
 }
+
+
+/*********************************************
+Check that the following addition behaviour works
+
+[1 2 3]         [1]         [14]
+[4 5 6] (3x3) x [2] (3x1) = [32] (3x1)
+[7 8 9]         [3]         [50]
+**********************************************/
+TEST_F(TENSOR_UNITTEST, MULTIPLICATION_3){
+
+	vector<int> dims1 = {3,3};
+	vector<int> dims2 = {3,1};
+
+	vector<float> data1 = {1,2,3,
+                           4,5,6,
+                           7,8,9};
+
+	vector<float> data2 = {1,2,3};
+
+	vector<float> out_data = {14,32,50};
+    vector<int> out_dims = {3,1};
+	Tensor<float> ten1(dims1, data1);
+	Tensor<float> ten2(dims2, data2);
+    Tensor<float> ten3(out_dims, 0);
+
+
+	TMATH_STATUS result = tmult<float>(ten1, ten2, ten3);
+	ASSERT_EQ(result, TMATH_SUCCESS);
+	ASSERT_EQ(out_data, ten3.get_data());
+}
+
+
+/*********************************************
+Check that the following addition behaviour works
+
+[1 2 3]         [1]         [14]
+[4 5 6] (3x3) x [2] (3x1) = [32] (3x1)
+[7 8 9]         [3]         [50]
+**********************************************/
+TEST_F(TENSOR_UNITTEST, MULTIPLICATION_4){
+
+	vector<int> dims1 = {3,3,3};
+	vector<int> dims2 = {3,3,1};
+
+	vector<float> data1 = {1,2,3,
+                           4,5,6,
+                           7,8,9,
+						   1,2,3,
+                           4,5,6,
+                           7,8,9,
+						   1,2,3,
+                           4,5,6,
+                           7,8,9};
+
+	vector<float> data2 = {1,2,3,
+						   1,2,3,
+						   1,2,3};
+
+	vector<float> out_data = {14,32,50,14,32,50,14,32,50};
+    vector<int> out_dims = {3,3,1};
+	Tensor<float> ten1(dims1, data1);
+	Tensor<float> ten2(dims2, data2);
+    Tensor<float> ten3(out_dims, 0);
+
+
+	TMATH_STATUS result = tmult<float>(ten1, ten2, ten3);
+	ASSERT_EQ(result, TMATH_SUCCESS);
+	ASSERT_EQ(out_data, ten3.get_data());
+}
