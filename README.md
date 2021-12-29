@@ -9,6 +9,7 @@ This is my attempt at writing a basic neural network framework in c++.
 - [ ] Write softmax and relu funtions for
 - [ ] Implement the layer class for fully connected forward pass networks
 - [ ] Look into how to set up the back propogation algorithm
+- [ ] With tensor mult done, try running some timing tests with very large matrices and start the data collection
 
 # Compilation
 A cmake file is provided. To compile and run the test files, run the following commands
