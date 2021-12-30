@@ -83,7 +83,7 @@ TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T> &dst){
     dst.set_data(output_data);
     return TMATH_SUCCESS;
 }
-
+template TMATH_STATUS tmult(Tensor<float> &src1, Tensor<float> &src2, Tensor<float> &dst);
 
 template<class T>
 TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst){
@@ -110,6 +110,8 @@ TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst){
     dst.set_data(output_data, output_dims);
     return TMATH_SUCCESS;
 }
+template TMATH_STATUS tadd(Tensor<float> &src1, Tensor<float>& src2, Tensor<float>& dst);
+
 
 template<class T>
 TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace, Tensor<T>& dst){
@@ -138,15 +140,41 @@ TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace, Tensor<T>
     }
     return TMATH_SUCCESS;
 }
+template TMATH_STATUS tconst_op(Tensor<float>& src, float operand, OP op, bool inplace, Tensor<float>& dst);
+
 
 template<class T>
 TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op, bool inplace, Tensor<T>& dst){
+    if (src1.size() != src2.size()){
+        return TMATH_FAILURE;
+    }
+
+    vector<T> new_data(src1.size());
+    vector<T> src1_data = src1.get_data();
+    vector<T> src2_data = src2.get_data();
+    for (int i =0; i < src1.size(); i++){
+        switch(op){
+            case ADD:
+                new_data[i] = src1_data[i] + src2_data[i];
+                break;
+            case MULT:
+                new_data[i] = src1_data[i] * src2_data[i];
+                break;
+
+            // Default to addition for now
+            default:
+                new_data[i] = src1_data[i] + src2_data[i];
+                break;
+        }
+    }
+
+    if (inplace){
+        src1.set_data(new_data);
+    }else{
+        dst.set_data(new_data, src1.get_dims());
+    }
     return TMATH_SUCCESS;
-
 }
-
-// Template Declarations
-template TMATH_STATUS tadd(Tensor<float> &src1, Tensor<float>& src2, Tensor<float>& dst);
-template TMATH_STATUS tmult(Tensor<float> &src1, Tensor<float> &src2, Tensor<float> &dst);
-template TMATH_STATUS tconst_op(Tensor<float>& src, float operand, OP op, bool inplace, Tensor<float>& dst);
 template TMATH_STATUS telwise_op(Tensor<float>& src, Tensor<float>& src2, OP op, bool inplace, Tensor<float>& dst);
+
+
