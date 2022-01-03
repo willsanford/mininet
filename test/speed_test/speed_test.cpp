@@ -3,7 +3,25 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <chrono>
 
+#include "tensor.h"
+#include "tensor_math.h"
+
+using namespace std::chrono;
 int main(void){
-  std::cout << "This is a speed test" << std::endl;
+  vector<int> dims1 = {1000,1000};
+  Tensor<float> test1(dims1, 1);
+
+  vector<int> dims2 = {1000,1000};
+  Tensor<float> test2(dims2, 1);
+
+  vector<int> dims3 = {1000,1000};
+  Tensor<float> test3(dims3);
+  
+  auto start = high_resolution_clock::now();
+  TMATH_STATUS outcome = tmult(test1, test2, test3); 
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<microseconds>(stop - start);
+  cout << duration.count() << endl;
 }
