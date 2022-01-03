@@ -30,26 +30,26 @@ Tensor<T> Net<T>::run(Tensor<T>& input, int batch_size){
     TMATH_STATUS success;
 
     // The number of weights is one less than the number of activations,
-    for (int layer_num = 0; layer_num < weights.size(); layer_num++){
+    // for (int layer_num = 0; layer_num < weights.size(); layer_num++){
 
-        // Multiply the weights by the activations to get the base of the next layer
-        success = tmult(weights[layer_num], new_activations[layer_num], new_activations[layer_num+1]);
-        if (success != TMATH_SUCCESS){
-            log("Tensor multiplication failed in network run", ERROR);
-        }
+    //     // Multiply the weights by the activations to get the base of the next layer
+    //     success = tmult(weights[layer_num], new_activations[layer_num], new_activations[layer_num+1]);
+    //     if (success != TMATH_SUCCESS){
+    //         log("Tensor multiplication failed in network run", ERROR);
+    //     }
     
-        // Run each element in the output   
-        success = telwise_op<T>(new_activations[layer_num+1], biases[layer_num], ADD, true);
-        if (success != TMATH_SUCCESS){
-            log("Bias addition failed in network run", ERROR);
-        }
+    //     // Run each element in the output   
+    //     success = telwise_op<T>(new_activations[layer_num+1], biases[layer_num], ADD, true);
+    //     if (success != TMATH_SUCCESS){
+    //         log("Bias addition failed in network run", ERROR);
+    //     }
 
-        // Run each of the nect activations through the activation function
-        for(int i = 0; i < new_activations[layer_num+1].size(); i++){
-            new_activations[layer_num+1] = act_func<T>(new_activations[layer_num+1][i], act_function);
+    //     // Run each of the nect activations through the activation function
+    //     for(int i = 0; i < new_activations[layer_num+1].size(); i++){
+    //         new_activations[layer_num+1] = act_func<T>(new_activations[layer_num+1][i], act_function);
 
-        }
-    }   
+    //     }
+    // }   
 
     // Run the final layer of activations against their weights
     return new_activations.back();
