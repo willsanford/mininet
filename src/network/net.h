@@ -13,6 +13,8 @@
 #include <vector>
 #include <string>
 #include "tensor.h"
+
+
 using std::vector;
 
 /*!
@@ -26,21 +28,19 @@ class Net{
 	private:
 		vector<Tensor<T>> weights;
 		vector<Tensor<T>> activions;
-		vector<T> biases;
+		vector<Tensor<T>> biases;
 
-		Tensor<T> last_result;
+		vector<int> layer_sizes;
 
-		int num_hidden_layers
-
-		vector<int> output_size;
+		std::string act_function;
 
 	public:
-		Net(vector<int> input_size, 
-				vector<int> output_size,
-				int num_hidden_layers, 
-				int hidden_layer_size,
-				string activation_function);
+		Net(int input_size, 
+			int output_size,
+			vector<int> hidden_layer_sizes,
 
+			// Turn this into a function handle eventually
+			std::string act_function);
 		~Net();
 
 
@@ -49,7 +49,7 @@ class Net{
 			* @brief Run the inputs through the network to get the .
 			*
 			*/
-		Tensor<T> run(Tenosr<T> input, int batch_size);
+		Tensor<T> run(Tensor<T>& input, int batch_size);
 
 
 		// TODO: generate gradient descent, apply gradient descents

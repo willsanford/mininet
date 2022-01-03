@@ -17,14 +17,18 @@ add_executable(mininet ${TEST_SOURCES})
 # Add library subdirectories and include thos directories
 add_subdirectory(src/math)
 add_subdirectory(src/logs)
+add_subdirectory(src/network)
+
 target_include_directories(mininet PUBLIC
 			   src/logs
-			   src/math)
+			   src/math
+			   src/network)
 
 target_link_libraries(mininet PUBLIC
 		      gtest
 			  pthread
 		      LogsLib
-		      MathLib)
+		      MathLib
+			  NetworkLib)
 
 target_compile_features(mininet PRIVATE cxx_std_17)

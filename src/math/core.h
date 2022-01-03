@@ -30,7 +30,8 @@ template<class T> vector<T> mmult(const vector<T>& src1, const vector<T>& src2, 
 template<class T>
 vector<T> broadcast_data(vector<T> input_data, vector<int> input_dims, vector<int> output_dims){
     if (!check_broadcast_dims(input_dims, output_dims)){
-        std::cout << "Thsi is crazy" << std::endl;
+        log("Broadcast Data Failied", ERROR);
+        return NULL;
     }
 
     int out_size = vector_product(output_dims);

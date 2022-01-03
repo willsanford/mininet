@@ -1,31 +1,56 @@
+#include "logs.h"
 #include "net.h"
 #include "tensor.h"
+#include "tensor_math.h"
+#include "activations.h"
+using std::vector;
+
 
 template<class T>
-Net(vector<int> input_size, vector<int> output_size, int num_hidden_layers, int hidden_layer_size, int batch_size=1){
-    // create vectors of tensors for weights and activations
+Net<T>::Net(int input_size, int output_size, vector<int> hidden_layer_sizes, std::string act_function){
 
-    // Set the function handle for the activation functions
-
-    // Think of whatever else might need to be done
 }
-template Net<T>(vector<int> input_size, vector<int> output_size, int num_hidden_layers, int hidden_layer_size, int batch_size=1);
+template class Net<float>;
 
 
-template<T> 
-Tensor<T> run(Tensor<T> input, int batch_size){
-    // Declare a new activations vector<Tensor<T>> and make it the correct size
-    vector<Tensor<T>> new_activations(num_hidden_layers + 1);
-    Tensor<T> output(output_size);
-    // Loop through each layer of weights, activations and biases and 
-    // run the function a_{i+1} = act_func(w_i * a_i + b_i)
+template<class T> 
+Tensor<T> Net<T>::run(Tensor<T>& input, int batch_size){
+    // Declare a new activations vector<Tensor<T>> and declare the internal tensors
+    vector<Tensor<T>> new_activations(layer_sizes.size());
+    for(int i = 0; i < new_activations.size(); i++){
+        // Layers are single dimensional tensors
+        vector<int> layer_size = {layer_sizes[i]};
+        Tensor<T> layer(layer_size, 0);
+        new_activations[i] = layer;
+    }
 
-    for (int i = 0; i < activations.size(); i++){
-        // Put in the actual logic for multiplying a single layer of activations and a matrix of weights
+    // Set the first layer of activations as the input
+    new_activations[0] = input;
+
+    TMATH_STATUS success;
+
+    // The number of weights is one less than the number of activations,
+    for (int layer_num = 0; layer_num < weights.size(); layer_num++){
+
+        // Multiply the weights by the activations to get the base of the next layer
+        success = tmult(weights[layer_num], new_activations[layer_num], new_activations[layer_num+1]);
+        if (success != TMATH_SUCCESS){
+            log("Tensor multiplication failed in network run", ERROR);
+        }
+    
+        // Run each element in the output   
+        success = telwise_op<T>(new_activations[layer_num+1], biases[layer_num], ADD, true);
+        if (success != TMATH_SUCCESS){
+            log("Bias addition failed in network run", ERROR);
+        }
+
+        // Run each of the nect activations through the activation function
+        for(int i = 0; i < new_activations[layer_num+1].size(); i++){
+            new_activations[layer_num+1] = act_func<T>(new_activations[layer_num+1][i], act_function);
+
+        }
     }   
 
-    // set the output as the last result
-
-    // return the last result
+    // Run the final layer of activations against their weights
+    return new_activations.back();
 }
-template run(Tensor<float> input, int batch_size);     
