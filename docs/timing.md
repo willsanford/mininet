@@ -2,17 +2,19 @@
 
 
 ## Test Results
-| Date      | Implementation | Test 1 | Commit  | 
+| Date      | Implementation | Test 1 | Commit
 | ----------- | ----------- | ----------- | -----------
-| akjhsgdkjahs      | 1203123       | naive | skljdhjfkljsd
-| askdefkhsd   | 2938479283        | alkwsdlkasjd | lkajhdfjklshd
+| 1/4/22      | naive       | 6970748 | something
 
 ## Test Descriptions
 ### Test 1
-Test 1 description
-### Test 2
-Test 2 description
+Multiplying two 1000x1000 matrices. Score in micro seconds
 
 ## Implementaion Description
 ### Naive
-### Next!
+<!-- 
+## Reference Score 
+### Test 1
+| System | score
+| ----------- | ----------- 
+| Numpy |  -->

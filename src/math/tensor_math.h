@@ -42,20 +42,16 @@ template<class T> TMATH_STATUS tmult(Tensor<T> &src1, Tensor<T> &src2, Tensor<T>
 template<class T> TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>& dst);
 
 
-/*! \brief Constant Tensor Operation
- * @param src First operand of the addition
- * @param operand Second operand of the addition
- * @param op The operation to be applied.
- * @param inplace Determines whether the the addition operation should be applied to the source tensor, or a provided output tensor. Default = true
- * @param dst If inplace is true, then the output will become data of this input tensor. Default = NULL
- * @returns TMATH_STATUS If the operation is successful, TMATH_SUCCESS is returned, otherwise return TMATH_FAILURE
- * # Constant Tensor Operation
- * Will perform the given operation with the given operand on every element of the input array. \
- * If inplce is true, then the output of the operation will be applied to the input tensor, but if it is false, then the output will be applied to the given destination tensor.\
- * ## Currently supported operations
- * Multiplication, Division, Addition, Subtraction
+/**
+ * @brief 
+ * 
+ * @tparam T 
+ * @param src 
+ * @param operand 
+ * @param op 
+ * @return TMATH_STATUS 
  */
-template<class T> TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace = true, Tensor<T>& dst = NULL);
+template<class T> TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op);
 
 /**
  * @brief 

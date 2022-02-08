@@ -17,7 +17,7 @@ target_include_directories(mininet PUBLIC
 
 target_link_libraries(mininet PUBLIC
 		    gtest
-			  pthread
+			pthread
 		    LogsLib
 		    MathLib)
 

@@ -114,7 +114,7 @@ template TMATH_STATUS tadd(Tensor<float> &src1, Tensor<float>& src2, Tensor<floa
 
 
 template<class T>
-TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace, Tensor<T>& dst){
+TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op){
     vector<T> src_data = src.get_data();
     vector<T> new_data(src.size(), 0);
     for (int i = 0; i < src.size(); i++){
@@ -132,19 +132,15 @@ TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op, bool inplace, Tensor<T>
                 break;
         }
     }
-    // Place the new data where it is supposed to go
-    if (inplace){
-        src.set_data(new_data);
-    }else{
-        dst.set_data(new_data, src.get_dims());
-    }
+    src.set_data(new_data);
     return TMATH_SUCCESS;
+    
 }
-template TMATH_STATUS tconst_op(Tensor<float>& src, float operand, OP op, bool inplace, Tensor<float>& dst);
+template TMATH_STATUS tconst_op(Tensor<float>& src, float operand, OP op);
 
 
 template<class T>
-TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op, bool inplace, Tensor<T>& dst){
+TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op){
     if (src1.size() != src2.size()){
         return TMATH_FAILURE;
     }
@@ -168,13 +164,11 @@ TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op, bool inplace, T
         }
     }
 
-    if (inplace){
-        src1.set_data(new_data);
-    }else{
-        dst.set_data(new_data, src1.get_dims());
-    }
+
+    src1.set_data(new_data);
+    
     return TMATH_SUCCESS;
 }
-template TMATH_STATUS telwise_op(Tensor<float>& src, Tensor<float>& src2, OP op, bool inplace, Tensor<float>& dst);
+template TMATH_STATUS telwise_op(Tensor<float>& src, Tensor<float>& src2, OP op);
 
 

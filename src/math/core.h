@@ -23,8 +23,7 @@ bool check_multiplication_dims(const vector<int> &a, const vector<int> &b);
 // Utility Functions
 int vector_product(vector<int> input);
 template<class T> vector<T> slice(const vector<T>, int a, int b);
-template<class T> vector<T> mmult(const vector<T>& src1, const vector<T>& src2, int m, int n, int p);
-
+template<class T> void mmult(const vector<T>& src1, const vector<T>& src2, vector<T>& dst, int m, int n, int p);
 
 // Template Implementations
 template<class T>
@@ -58,10 +57,17 @@ template<class T> vector<T> slice(const vector<T>input, int a, int b){
     return result;
 }
 
-
-/*
- Multiply the matrices src1 and src2, where  src1 = [mxn] and src2 = [nxp]
-*/
+/**
+ * @brief Matrix Multiplication
+ * 
+ * @tparam T Input type
+ * @param src1 Left Operand
+ * @param src2 Right Operand
+ * @param m Rows of left Operand
+ * @param n Columns of left operand
+ * @param p Columns of right operand
+ * @return vector<T> Result of the matrix multiplication
+ */
 template<class T> vector<T> mmult(const vector<T> &src1, const vector<T> &src2, int m, int n, int p){
     vector<T> out(m*p, 0);
 
@@ -80,4 +86,8 @@ template<class T> vector<T> mmult(const vector<T> &src1, const vector<T> &src2, 
 
     return out;
 }
+// template<class T> void mmult(const vector<T>& src1, const vector<T>& src2, vector<T>& dst, int m, int n, int p){
+    
+// }
+
 #endif
