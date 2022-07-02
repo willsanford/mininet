@@ -4,14 +4,14 @@
 #include "tensor.h"
 #include "core.h"
 
-/*! 
+/*!
  * \file tensor_math.h
  * \brief Functions for performing operations on tensors
  * Details.
 */
 
 
-/*! 
+/*!
 * \brief TMATH_STATUS
 * An enumeration retruned by tensor math functions to demonstrate if the operation was successful or not
 */
@@ -21,7 +21,7 @@ enum TMATH_STATUS{
 };
 
 /*! \brief Tensor Multiplication
- * @param src1 Left side of the tensor multiplication 
+ * @param src1 Left side of the tensor multiplication
  * @param src2 Right side of the tensor multiplication
  * @param dst Output of the tensor multiplication src1 * src2
  * @returns TMATH_STATUS If the operation is successful, TMATH_SUCCESS is returned, otherwise return TMATH_FAILURE
@@ -43,24 +43,24 @@ template<class T> TMATH_STATUS tadd(Tensor<T>& src1, Tensor<T>& src2, Tensor<T>&
 
 
 /**
- * @brief 
- * 
- * @tparam T 
- * @param src 
- * @param operand 
- * @param op 
- * @return TMATH_STATUS 
+ * @brief
+ *
+ * @tparam T
+ * @param src
+ * @param operand
+ * @param op
+ * @return TMATH_STATUS
  */
 template<class T> TMATH_STATUS tconst_op(Tensor<T>& src, T operand, OP op);
 
 /**
- * @brief 
- * 
- * @tparam T 
- * @param src1 
- * @param src2 
- * @param op 
- * @return TMATH_STATUS 
+ * @brief
+ *
+ * @tparam T
+ * @param src1
+ * @param src2
+ * @param op
+ * @return TMATH_STATUS
  */
 template<class T> TMATH_STATUS telwise_op(Tensor<T>& src1, Tensor<T>& src2, OP op);
 

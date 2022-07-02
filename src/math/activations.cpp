@@ -2,12 +2,12 @@
 
 /**
  * @brief Relu
- * 
- * @tparam T 
- * @param in 
- * @return T 
+ *
+ * @tparam T
+ * @param in
+ * @return T
  */
-template<class T> 
+template<class T>
 T relu(T in){
   if (in > 0){
     return in;
@@ -18,10 +18,10 @@ template float relu(float in);
 
 /**
  * @brief Derivative of the relu
- * 
- * @tparam T 
- * @param in 
- * @return T 
+ *
+ * @tparam T
+ * @param in
+ * @return T
  */
 template<class T>
 T drelu(T in){
@@ -29,7 +29,7 @@ T drelu(T in){
     return 1;
   }
   return 0;
-} 
+}
 template float drelu(float in);
 
 

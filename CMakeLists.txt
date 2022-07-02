@@ -3,7 +3,7 @@ project(mininet)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED)
-
+set(CMAKE_CXX_FLAGS "-O2")
 add_library(mininet SHARED src/network/net.cpp)
 
 # Add library subdirectories and include thos directories
@@ -33,7 +33,7 @@ set(TEST_SOURCES test/unit_test/main.cpp
 
 add_executable(unittest ${TEST_SOURCES})
 
-target_link_libraries(unittest mininet) 
+target_link_libraries(unittest mininet)
 
 # Produce the speed test
 
@@ -42,4 +42,4 @@ set(SPEED_TEST_SOURCES test/speed_test/speed_test.cpp)
 
 add_executable(speedtest ${SPEED_TEST_SOURCES})
 
-target_link_libraries(speedtest mininet) 
+target_link_libraries(speedtest mininet)
