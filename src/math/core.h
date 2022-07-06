@@ -76,9 +76,7 @@ template<class T> vector<T> slice(const vector<T>input, int a, int b){
 template<class T>
 vector<T> mmult(const vector<T> &src1, const vector<T> &src2, int m, int n, int p){
     vector<T> out(m*p, 0);
-
     // Loop through all the elements in the output
-
     for(int i = 0; i < m; i++){
         for(int j = 0; j < p; j++){
             T sum = 0;
